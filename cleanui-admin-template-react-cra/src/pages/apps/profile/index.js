@@ -1,29 +1,17 @@
 import React from 'react'
-import { Button, Progress, Calendar, Tabs, Upload, Icon, Input, Menu, Dropdown } from 'antd'
+import { Button, Progress, Calendar, Tabs, Upload, Icon, Input } from 'antd'
 import { Helmet } from 'react-helmet'
 import Avatar from 'components/CleanUIComponents/Avatar'
 import Donut from 'components/CleanUIComponents/Donut'
 import Chat from 'components/CleanUIComponents/Chat'
 import SettingsForm from './SettingsForm'
+import ArticlesForm from './ArticlesForm'
+import SkillsForm from "./SkillsForm/index";
 import data from './data.json'
 import style from './style.module.scss'
 
 const { TabPane } = Tabs
 const { TextArea } = Input
-
-const actions = (
-  <Menu>
-    <Menu.Item>
-      <Icon type="edit" /> Edit Post
-    </Menu.Item>
-    <Menu.Item>
-      <Icon type="delete" /> Delete Post
-    </Menu.Item>
-    <Menu.Item>
-      <Icon type="frown-o" /> Mark as a Spam
-    </Menu.Item>
-  </Menu>
-)
 
 class ProfileApp extends React.Component {
   state = {
@@ -55,7 +43,7 @@ class ProfileApp extends React.Component {
       profSkills: data.profSkills,
       lastCompanies: data.lastCompanies,
       personal: data.personal,
-      posts: data.posts,
+      // posts: data.posts,
     })
   }
 
@@ -76,7 +64,7 @@ class ProfileApp extends React.Component {
       profSkills,
       lastCompanies,
       personal,
-      posts,
+      // posts,
     } = this.state
 
     return (
@@ -107,20 +95,7 @@ class ProfileApp extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="mb-3 text-black">
-                    <strong>Actions</strong>
-                  </h5>
-                  <div className={style.actions}>
-                    <Button style={{ display: 'block', width: '100%' }}>Send Message</Button>
-                    <Button style={{ display: 'block', width: '100%' }}>Send File</Button>
-                    <Button style={{ display: 'block', width: '100%' }}>Access History</Button>
-                    <Button style={{ display: 'block', width: '100%' }}>Rename User</Button>
-                    <Button style={{ display: 'block', width: '100%' }}>Ban User</Button>
-                  </div>
-                </div>
-              </div>
+              <SkillsForm />
               <div className="card">
                 <div className="card-body">
                   <h5 className="mb-3 text-black">
@@ -196,17 +171,20 @@ class ProfileApp extends React.Component {
                     <TabPane
                       tab={
                         <span>
-                          <i className="icmn-menu" /> Wall
+                          <i className="icmn-menu" /> Content
                         </span>
                       }
                       key="1"
                     >
                       <div className="py-3">
+                        <h5 className="mb-3 text-black">
+                          <strong>About</strong>
+                        </h5>
                         <TextArea rows={3} />
                         <div className="mt-3">
                           <Button className="mr-2" type="primary" style={{ width: 200 }}>
                             <i className="fa fa-send mr-2" />
-                            Create Post
+                            Save Intro
                           </Button>
                           <Upload>
                             <Button>
@@ -216,112 +194,9 @@ class ProfileApp extends React.Component {
                         </div>
                       </div>
                       <hr />
-                      {posts.map(item => (
-                        <div key={item.name}>
-                          <div className={`${style.wallItem} clearfix`}>
-                            <div className={style.wallAvatar}>
-                              <Avatar size="50" src={item.avatar} border={false} />
-                            </div>
-                            <div className={style.wallContent}>
-                              <div className="mb-3">
-                                <div className="pull-right">
-                                  <Dropdown overlay={actions}>
-                                    <a className="ant-dropdown-link" href="javascript: void(0);">
-                                      Actions <Icon type="down" />
-                                    </a>
-                                  </Dropdown>
-                                </div>
-                                <strong>{item.name}</strong> posted:
-                                <br />
-                                <small className="text-muted">{item.date}</small>
-                              </div>
-                              <div
-                                dangerouslySetInnerHTML={{ __html: item.content }}
-                                className="mb-3"
-                              />
-                              <div className="mr-3">
-                                <a href="javascript: void(0);" className="mr-3">
-                                  <i className="icmn-heart mr-2" />
-                                  {item.likesCount > 0 && <span>{`${item.likesCount} Likes`}</span>}
-                                  {item.likesCount === 0 && (
-                                    <span>{`${item.likesCount} Like`}</span>
-                                  )}
-                                </a>
-                                <a href="javascript: void(0);">
-                                  <i className="icmn-bubble mr-2" />
-                                  {item.commentsCount > 0 && (
-                                    <span>{`${item.commentsCount} Comments`}</span>
-                                  )}
-                                  {item.commentsCount === 0 && (
-                                    <span>{`${item.commentsCount} Comment`}</span>
-                                  )}
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-                          <div className={`${style.wallContent} ${style.wallInnerContent}`}>
-                            {item.comments.length > 0 && (
-                              <div className={style.wallComments}>
-                                {item.comments.map(postComment => (
-                                  <div
-                                    className={`${style.wallItem} clearfix`}
-                                    key={postComment.name}
-                                  >
-                                    <div className={style.wallAvatar}>
-                                      <Avatar size="50" src={postComment.avatar} border={false} />
-                                    </div>
-                                    <div className={style.wallContent}>
-                                      <div className="mb-3">
-                                        <div className="pull-right">
-                                          <Dropdown overlay={actions}>
-                                            <a
-                                              className="ant-dropdown-link"
-                                              href="javascript: void(0);"
-                                            >
-                                              Actions <Icon type="down" />
-                                            </a>
-                                          </Dropdown>
-                                        </div>
-                                        <strong>{postComment.name}</strong> posted:
-                                        <br />
-                                        <small className="text-muted">{postComment.date}</small>
-                                      </div>
-                                      <div
-                                        dangerouslySetInnerHTML={{ __html: postComment.content }}
-                                      />
-                                      <div>
-                                        <a href="javascript: void(0);" className="mr-2">
-                                          <i className="icmn-heart mr-2" />
-                                          {postComment.likesCount > 0 && (
-                                            <span>{`${postComment.likesCount} Likes`}</span>
-                                          )}
-                                          {postComment.likesCount === 0 && (
-                                            <span>{`${postComment.likesCount} Like`}</span>
-                                          )}
-                                        </a>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                          <div className="form-group mt-4 mb-0">
-                            <TextArea rows={3} />
-                            <div className="mt-3">
-                              <Button className="mr-2" type="primary" style={{ width: 200 }}>
-                                <i className="fa fa-send mr-2" />
-                                Comment
-                              </Button>
-                              <Upload>
-                                <Button>
-                                  <Icon type="upload" /> Attach File
-                                </Button>
-                              </Upload>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                      <div className="py-3">
+                        <ArticlesForm />
+                      </div>
                     </TabPane>
                     <TabPane
                       tab={
