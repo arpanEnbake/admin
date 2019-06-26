@@ -32,6 +32,8 @@
   "dependencies": {
     "@rowno/sparkline": "^3.0.1",
     "antd": "^3.13.2",
+    "aws-amplify": "^1.1.26",
+    "aws-amplify-react": "^2.3.6",
     "bootstrap-css-only": "^4.2.1",
     "chart.js": "^2.7.3",
     "chartist": "^0.11.0",

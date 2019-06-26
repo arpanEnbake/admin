@@ -1,9 +1,13 @@
 import React from 'react'
-import { Button, Progress, Calendar, Tabs, Upload, Icon, Input } from 'antd'
+import { Form, Button, Progress, Calendar, Tabs, Upload, Icon, Input } from 'antd'
 import { Helmet } from 'react-helmet'
 import Avatar from 'components/CleanUIComponents/Avatar'
 import Donut from 'components/CleanUIComponents/Donut'
 import Chat from 'components/CleanUIComponents/Chat'
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import * as queries from 'graphql/queries';
+import * as mutations from 'graphql/mutations';
+import awsmobile from 'aws-exports';
 import SettingsForm from './SettingsForm'
 import ArticlesForm from './ArticlesForm'
 import SkillsForm from "./SkillsForm/index";
@@ -13,42 +17,79 @@ import style from './style.module.scss'
 const { TabPane } = Tabs
 const { TextArea } = Input
 
+Amplify.configure(awsmobile)
+@Form.create()
+
 class ProfileApp extends React.Component {
+
   state = {
-    name: '',
-    nickname: '',
-    photo: '',
-    background: '',
-    post: '',
-    postsCount: '',
-    followersCount: '',
-    lastActivity: '',
-    status: '',
+    intro: data.intro,
+    name: data.name,
+    nickname: data.nickname,
+    photo: data.photo,
+    background: data.background,
+    post: data.post,
+    postsCount: data.postsCount,
+    followersCount: data.followersCount,
+    lastActivity: data.lastActivity,
+    status: data.status,
+    skills: data.skills,
+    coursesEnd: data.coursesEnd,
+    adress: data.adress,
+    profSkills: data.profSkills,
+    lastCompanies: data.lastCompanies,
+    personal: data.personal,
+    // posts: data.posts,
   }
 
-  componentWillMount() {
-    this.setState({
-      name: data.name,
-      nickname: data.nickname,
-      photo: data.photo,
-      background: data.background,
-      post: data.post,
-      postsCount: data.postsCount,
-      followersCount: data.followersCount,
-      lastActivity: data.lastActivity,
-      status: data.status,
-      skills: data.skills,
-      coursesEnd: data.coursesEnd,
-      adress: data.adress,
-      profSkills: data.profSkills,
-      lastCompanies: data.lastCompanies,
-      personal: data.personal,
-      // posts: data.posts,
-    })
+  async componentDidMount() {
+    try {
+
+      const testIntro = await this.listAllIntros()
+      console.log("yikes", testIntro.data.listIntros.items[0].content)
+
+        this.setState({
+          intro: testIntro.data.listIntros.items[0].content,
+          name: data.name,
+          nickname: data.nickname,
+          photo: data.photo,
+          background: data.background,
+          post: data.post,
+          postsCount: data.postsCount,
+          followersCount: data.followersCount,
+          lastActivity: data.lastActivity,
+          status: data.status,
+          skills: data.skills,
+          coursesEnd: data.coursesEnd,
+          adress: data.adress,
+          profSkills: data.profSkills,
+          lastCompanies: data.lastCompanies,
+          personal: data.personal,
+          // posts: data.posts,
+        })
+    } catch (err) {
+      console.log("error profile/index.js", err.message)
+    }
   }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const { form } = this.props
+    form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        API.graphql(graphqlOperation(mutations.updateIntro, {input: {id: "90b4c0af-f8aa-410f-904b-ca5bd9a921ed", content: values.intro}}))
+          .then(response => console.log('GraphQL API Response', response)) // rejects: the page is HTML, not a valid json
+          .catch(apiErr => console.log('GraphQL API Error', apiErr))
+      }
+    });
+  }
+
+  listAllIntros = async () => API.graphql(graphqlOperation(queries.listIntros))
 
   render() {
     const {
+      intro,
       name,
       nickname,
       photo,
@@ -66,6 +107,9 @@ class ProfileApp extends React.Component {
       personal,
       // posts,
     } = this.state
+
+    const { form } = this.props
+    const { getFieldDecorator } = form
 
     return (
       <div>
@@ -95,7 +139,7 @@ class ProfileApp extends React.Component {
                   </div>
                 </div>
               </div>
-              <SkillsForm />
+              <SkillsForm profSkills={profSkills} />
               <div className="card">
                 <div className="card-body">
                   <h5 className="mb-3 text-black">
@@ -180,18 +224,26 @@ class ProfileApp extends React.Component {
                         <h5 className="mb-3 text-black">
                           <strong>About</strong>
                         </h5>
-                        <TextArea rows={3} />
-                        <div className="mt-3">
-                          <Button className="mr-2" type="primary" style={{ width: 200 }}>
-                            <i className="fa fa-send mr-2" />
-                            Save Intro
-                          </Button>
-                          <Upload>
-                            <Button>
-                              <Icon type="upload" /> Attach File
+                        <Form onSubmit={this.handleSubmit} className="intro-form">
+                          <Form.Item category="intro">
+                            {getFieldDecorator('intro', {
+                              rules: [{required: true, message: 'Please input your intro!'}],
+                            })(
+                              <TextArea rows={3} placeholder={intro} />
+                            )}
+                          </Form.Item>
+                          <div className="mt-3">
+                            <Button className="mr-2" type="primary" style={{width: 200}} htmlType="submit">
+                              <i className="fa fa-send mr-2" />
+                              Save Intro
                             </Button>
-                          </Upload>
-                        </div>
+                            <Upload>
+                              <Button>
+                                <Icon type="upload" /> Attach File
+                              </Button>
+                            </Upload>
+                          </div>
+                        </Form>
                       </div>
                       <hr />
                       <div className="py-3">

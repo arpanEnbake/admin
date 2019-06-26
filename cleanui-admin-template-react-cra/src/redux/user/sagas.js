@@ -1,6 +1,7 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects'
+import { Auth } from 'aws-amplify';
 import { notification } from 'antd'
-import { login, currentAccount, logout } from 'services/user'
+import { login, logout } from 'services/user'
 import actions from './actions'
 
 export function* LOGIN({ payload }) {
@@ -15,7 +16,7 @@ export function* LOGIN({ payload }) {
   if (success) {
     notification.success({
       message: 'Logged In',
-      description: 'You have successfully logged in to Clean UI React Admin Template!',
+      description: 'You have successfully logged into your Personal Brand Management console.',
     })
     yield put({
       type: 'user/LOAD_CURRENT_ACCOUNT',
@@ -30,16 +31,18 @@ export function* LOAD_CURRENT_ACCOUNT() {
       loading: true,
     },
   })
-  const response = yield call(currentAccount)
-  if (response) {
-    const { uid: id, email, photoURL: avatar } = response
+
+  const user = yield Auth.currentAuthenticatedUser()
+
+  if (user) {
+    const { sub, email, name } = user.attributes
     yield put({
       type: 'user/SET_STATE',
       payload: {
-        id,
-        name: 'Administrator',
+        sub,
+        name,
         email,
-        avatar,
+        avatar: null,
         role: 'admin',
         authorized: true,
       },

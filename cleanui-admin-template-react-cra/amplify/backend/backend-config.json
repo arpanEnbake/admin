@@ -1,0 +1,17 @@
+{
+	"auth": {
+		"cognito6792fc15": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"api": {
+		"pbmgmtAdmin": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"securityType": "AMAZON_COGNITO_USER_POOLS"
+			}
+		}
+	}
+}

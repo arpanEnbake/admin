@@ -1,0 +1,21 @@
+{
+    "web": {
+        "awscloudformation": {
+            "AuthRoleName": "pbmgmt-admin-web-20190504160027-authRole",
+            "UnauthRoleArn": "arn:aws:iam::273116933489:role/pbmgmt-admin-web-20190504160027-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::273116933489:role/pbmgmt-admin-web-20190504160027-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "pbmgmt-admin-web-20190504160027-deployment",
+            "UnauthRoleName": "pbmgmt-admin-web-20190504160027-unauthRole",
+            "StackName": "pbmgmt-admin-web-20190504160027",
+            "StackId": "arn:aws:cloudformation:us-east-2:273116933489:stack/pbmgmt-admin-web-20190504160027/431c9050-6ea7-11e9-99da-02d33a13e486"
+        },
+        "categories": {
+            "auth": {
+                "cognito6792fc15": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"321546191867916\",\"client_secret\":\"342659c33031db79e07fc0c26ae90bc5\"},{\"ProviderName\":\"Google\",\"client_id\":\"AIzaSyDH6Bb3iAFf2Ceg7Eu4kmAzz86SGoCu6CA\",\"client_secret\":\"2ciODLtSega8IlEhgQR6T4Gh\"},{\"ProviderName\":\"LoginWithAmazon\",\"client_id\":\"amzn1.application-oa2-client.ec7edd1b1715459d942318302477e7c6\",\"client_secret\":\"53c3fa6f60ef2d43142d32b8361758873eab138608c39e1d1b44144c8635b0bf\"}]"
+                }
+            }
+        }
+    }
+}

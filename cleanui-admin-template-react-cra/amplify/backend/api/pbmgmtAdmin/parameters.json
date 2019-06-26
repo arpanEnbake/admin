@@ -1,0 +1,10 @@
+{
+    "AppSyncApiName": "pbmgmtAdmin",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authcognito6792fc15",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

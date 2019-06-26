@@ -1,5 +1,5 @@
 {
-  "name": "Artour Scott",
+  "name": "Kieran Derfus",
   "nickname": "@arteezy",
   "photo": "resources/images/avatars/1.jpg",
   "background": "resources/images/photos/4.jpeg",
@@ -7,9 +7,9 @@
   "postsCount": "17",
   "followersCount": "154",
   "lastActivity": "13 May 2016 7:26PM",
-  "status": "Offline",
+  "status": "Online",
   "skills": [{
-    "name": "Managment",
+    "name": "Management",
     "value": 73
   }, {
     "name": "Investing",
@@ -27,7 +27,7 @@
   "coursesEnd": "Digital Ocean, Nokia",
   "adress": "New York, US",
   "profSkills": ["HTML", "CSS", "JavaScript"],
-  "lastCompanies": "Microsoft, Soft Mailstorm",
+  "lastCompanies": ["Microsoft, Soft Mailstorm"],
   "personal": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
   "posts": [{
     "avatar": "resources/images/avatars/4.jpg",

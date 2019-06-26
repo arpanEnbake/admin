@@ -8,7 +8,7 @@ class SkillsForm extends React.Component {
   state = {}
 
   render() {
-    const { form } = this.props
+    const { form, profSkills } = this.props
 
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
@@ -19,7 +19,7 @@ class SkillsForm extends React.Component {
             </h5>
             <FormItem label="Category">
               {form.getFieldDecorator('category', {
-                initialValue: ['python', 'serverless'],
+                initialValue: profSkills
               })(
                 <Select
                   mode="tags"

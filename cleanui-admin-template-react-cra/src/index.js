@@ -36,4 +36,4 @@ ReactDOM.render(
 )
 
 serviceWorker.register()
-export { store, history }
+export {store, history}

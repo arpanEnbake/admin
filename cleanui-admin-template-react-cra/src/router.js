@@ -7,6 +7,14 @@ import Loader from 'components/LayoutComponents/Loader'
 import IndexLayout from 'layouts'
 import NotFoundPage from 'pages/404'
 
+// AMPLIFY
+import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
+import Amplify from 'aws-amplify';
+// Get the aws resources configuration parameters
+import awsExports from './aws-exports'; // if you are using Amplify CLI
+
+Amplify.configure(awsExports);
+
 const loadable = loader =>
   Loadable({
     loader,
@@ -283,4 +291,4 @@ class Router extends React.Component {
   }
 }
 
-export default Router
+export default withAuthenticator(Router)
